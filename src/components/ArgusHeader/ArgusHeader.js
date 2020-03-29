@@ -1,4 +1,8 @@
 import React from 'react';
+import Notification20 from '@carbon/icons-react/lib/notification/20';
+import UserAvatar20 from '@carbon/icons-react/lib/user--avatar/20';
+import { Link } from 'react-router-dom';
+
 import {
   Header,
   HeaderName,
@@ -7,21 +11,23 @@ import {
   HeaderGlobalBar,
   HeaderGlobalAction,
   SkipToContent,
-} from 'carbon-components-react/lib/components/UIShell';
-import Notification20 from '@carbon/icons-react/lib/notification/20';
-import UserAvatar20 from '@carbon/icons-react/lib/user--avatar/20';
-import AppSwitcher20 from '@carbon/icons-react/lib/app-switcher/20';
-import { Link } from 'react-router-dom';
+} from 'carbon-components-react/es/components/UIShell';
 
-const TutorialHeader = () => (
-  <Header aria-label="Carbon Tutorial">
+const ArgusHeader = () => (
+  <Header aria-label="Argus">
     <SkipToContent />
     <HeaderName element={Link} to="/" prefix="IBM">
-      Carbon Tutorial
+      Argus
     </HeaderName>
     <HeaderNavigation aria-label="Carbon Tutorial">
-      <HeaderMenuItem element={Link} to="/repos">
-        Repositories
+      <HeaderMenuItem element={Link} to="/argusondw">
+        Argus on Deepweb
+      </HeaderMenuItem>
+      <HeaderMenuItem element={Link} to="/tryargus">
+        Try Argus
+      </HeaderMenuItem>
+      <HeaderMenuItem element={Link} to="/admin">
+        Admin Area
       </HeaderMenuItem>
     </HeaderNavigation>
     <HeaderGlobalBar>
@@ -31,11 +37,7 @@ const TutorialHeader = () => (
       <HeaderGlobalAction aria-label="User Avatar">
         <UserAvatar20 />
       </HeaderGlobalAction>
-      <HeaderGlobalAction aria-label="App Switcher">
-        <AppSwitcher20 />
-      </HeaderGlobalAction>
     </HeaderGlobalBar>
   </Header>
 );
-
-export default TutorialHeader;
+export default ArgusHeader;

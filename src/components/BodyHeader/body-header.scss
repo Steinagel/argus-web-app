@@ -1,0 +1,68 @@
+.tryargus-page__banner {
+  padding-top: $spacing-05;
+  padding-bottom: $spacing-07 * 1.6;
+  // @include tryargus-page-background;
+}
+
+.tryargus-page__heading {
+  @include carbon--type-style('productive-heading-07');
+  @include carbon--font-weight('regular');
+  padding-left: 50px;
+  line-height: 55px;
+  font-size: 75px;
+}
+
+// Glitch
+
+.glitch {
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+  position: relative;
+  // float: left;
+}
+
+@keyframes noise-anim {
+  $steps: 20;
+  @for $i from 0 through $steps {
+    #{percentage($i*(1/$steps))} {
+      $top: random(100);
+      $bottom: random(101 - $top);
+      clip-path: inset(#{$top}% 0 #{$bottom}% 0);
+    }
+  }
+}
+
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0.6px;
+  text-shadow: -0.2px 0 rgb(255, 171, 171);
+  top: 0;
+  color: rgb(0, 0, 0);
+  background: rgb(255, 255, 255);
+  overflow: hidden;
+  animation: noise-anim 2s infinite linear alternate-reverse;
+}
+
+@keyframes noise-anim-2 {
+  $steps: 20;
+  @for $i from 0 through $steps {
+    #{percentage($i*(1/$steps))} {
+      $top: random(100);
+      $bottom: random(101 - $top);
+      clip-path: inset(#{$top}% 0 #{$bottom}% 0);
+    }
+  }
+}
+
+.glitch::before {
+  content: attr(data-text);
+  position: absolute;
+  left: -0.6px;
+  text-shadow: -0.2px 0 rgb(159, 159, 250);
+  top: 0;
+  color: rgb(0, 0, 0);
+  background: rgb(255, 255, 255);
+  overflow: hidden;
+  animation: noise-anim-2 20s infinite linear alternate-reverse;
+}

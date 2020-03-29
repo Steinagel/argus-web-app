@@ -1,52 +1,47 @@
 @import './mixins.scss';
 @import './overrides.scss';
 
-// html, body {margin: 0; height: 100%; overflow: hidden}
-
-.landing-page__illo {
-  transform: rotate(315deg);
-  -ms-transform: rotate(315deg);
-  -moz-transform: rotate(315deg);
-  -webkit-transform: rotate(315deg);
-  -o-transform: rotate(315deg);
-  max-height: (75vh - 10.81081081081081vh) * 1.4;
-  // display: block;
-  margin-top: -20vh;
+.ondw-page__illo {
+  // position: absolute;
+  // right: 25vw;
+  max-height: (50vh - 10.81081081081081vh) * 1;
+  margin-left: 28%;
 }
 
-.landing-page__feather {
+.ondw-page__feather {
   height: 50vh - 10.81081081081081vh;
+  padding: 0 28% 0 0;
   // background-color: red;
-  // margin-left: 10;
+  // width: auto;
 }
 
-.landing-page__spacing {
+.ondw-page__spacing {
   height: 20vh;
 }
 
-.landing-page__tab-content {
+.ondw-page__tab-content {
   padding-top: -$layout-05;
 }
 
-.landing-page__r2 {
+.ondw-page__r2 {
   // margin-top: rem(-40px);
   height: 50vh - 10.81081081081081vh;
-  // @include landing-page-background;
+  // @include ondw-page-background;
 }
 
-.landing-page__text {
-  padding: 0 0 0 13%;
+.ondw-page__text {
+  padding: 0 5% 0 13%;
   // background-color: red;
 }
 
-.landing-page__heading {
+.ondw-page__heading {
   padding-bottom: $spacing-05;
   @include carbon--type-style('productive-heading-07');
   @include carbon--font-weight('semibold');
   font-size: 500%;
 }
 
-.landing-page__subheading {
+.ondw-page__subheading {
   padding-bottom: $spacing-05;
   // text-align: center;
   @include carbon--type-style('productive-heading-03');
@@ -54,19 +49,20 @@
   font-size: 200%;
 }
 
-.landing-page__p {
+.ondw-page__p {
   padding-bottom: $spacing-02;
   // text-align: center;
   @include carbon--type-style('productive-heading-02');
   @include carbon--font-weight('regular');
 }
 
-.landing-page__team {
+.ondw-page__team {
   padding-top: $spacing-03;
+  padding-bottom: $spacing-04;
   bottom: 0;
   @include carbon--type-style('productive-heading-01');
 }
 
-.landing-page__label {
+.ondw-page__label {
   @include carbon--type-style('heading-01');
 }

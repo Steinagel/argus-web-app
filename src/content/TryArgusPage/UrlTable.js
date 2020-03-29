@@ -13,7 +13,7 @@ import {
   TableExpandedRow,
 } from 'carbon-components-react';
 
-const RepoTable = ({ rows, headers }) => {
+const UrlTable = ({ rows, headers }) => {
   return (
     <DataTable
       rows={rows}
@@ -48,7 +48,7 @@ const RepoTable = ({ rows, headers }) => {
                     ))}
                   </TableExpandRow>
                   <TableExpandedRow colSpan={headers.length + 1}>
-                    <p>Row description</p>
+                    <p>Risky: Found Risky Sentence</p>
                   </TableExpandedRow>
                 </React.Fragment>
               ))}
@@ -60,4 +60,4 @@ const RepoTable = ({ rows, headers }) => {
   );
 };
 
-export default RepoTable;
+export default UrlTable;

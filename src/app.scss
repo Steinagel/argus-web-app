@@ -3,6 +3,8 @@
 @import 'carbon-components/scss/globals/scss/typography.scss';
 @import 'carbon-components/scss/globals/scss/vars.scss';
 
-@import './components/TutorialHeader/tutorial-header.scss';
+@import './components/ArgusHeader/argus-header.scss';
 @import './content/LandingPage/landing-page.scss';
-@import './content/RepoPage/repo-page.scss';
+@import './content/TryArgusPage/try-argus-page.scss';
+@import './content/ArgusOnDwPage/argus-on-dw-page.scss';
+@import './content/AdminArea/admin-area.scss';

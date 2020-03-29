@@ -1,0 +1,62 @@
+@import './mixins.scss';
+@import './overrides.scss';
+@import '../../components/BodyHeader/body-header.scss';
+
+// .tryargus-page__banner {
+//   padding-top: $spacing-05;
+//   padding-bottom: $spacing-07 * 1.6;
+//   // @include tryargus-page-background;
+// }
+
+.large-header {
+  position: relative;
+  width: 100%;
+  background: #111;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center center;
+  z-index: 1;
+}
+
+// .tryargus-page__heading {
+//   @include carbon--type-style('productive-heading-07');
+//   @include carbon--font-weight('regular');
+//   padding-left: 50px;
+//   line-height: 55px;
+//   font-size: 75px;
+// }
+
+.tryargus-page__tab-content {
+  padding-top: $layout-05;
+  padding-bottom: $layout-05;
+}
+
+.tryargus-page__r2 {
+  margin-top: rem(-40px);
+}
+
+.tryargus-page__subheading {
+  padding-bottom: $spacing-06;
+  @include carbon--type-style('productive-heading-03');
+  @include carbon--font-weight('semibold');
+}
+
+.tryargus-page__p {
+  padding-bottom: $spacing-03 * 5;
+  @include carbon--type-style('productive-heading-03');
+}
+
+.tryargus-page__r3 {
+  padding-top: $spacing-09;
+  padding-bottom: $spacing-09;
+  @include tryargus-page-background;
+}
+
+.tryargus-page__label {
+  @include carbon--type-style('heading-01');
+}
+
+.tryargus-data__content,
+.tryargus-search__input {
+  padding-top: $spacing-08;
+}
