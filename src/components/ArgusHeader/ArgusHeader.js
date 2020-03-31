@@ -21,7 +21,7 @@ const ArgusHeader = () => (
     </HeaderName>
     <HeaderNavigation aria-label="Carbon Tutorial">
       <HeaderMenuItem element={Link} to="/argusondw">
-        Argus on Deepweb
+        Behind Argus
       </HeaderMenuItem>
       <HeaderMenuItem element={Link} to="/tryargus">
         Try Argus
