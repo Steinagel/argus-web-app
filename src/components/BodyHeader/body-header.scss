@@ -1,15 +1,42 @@
-.tryargus-page__banner {
+.bh-page__banner {
+  // background-color: blue;
   padding-top: $spacing-05;
   padding-bottom: $spacing-07 * 1.6;
   // @include tryargus-page-background;
 }
 
-.tryargus-page__heading {
+.bh-page__heading {
+  // background-color: greenyellow;
   @include carbon--type-style('productive-heading-07');
   @include carbon--font-weight('regular');
   padding-left: 50px;
   line-height: 55px;
   font-size: 75px;
+}
+
+.bh-right-logo-div {
+  // width: 10px;
+  height: 85px;
+  // background-color: red;
+  display: flex;
+  right: 0;
+  position: relative;
+}
+
+.bh-right-logo {
+  width: auto;
+  height: 115px;
+  transform: rotate(315deg);
+  -ms-transform: rotate(315deg);
+  -moz-transform: rotate(315deg);
+  -webkit-transform: rotate(315deg);
+  -o-transform: rotate(315deg);
+}
+
+.bh-down-line {
+  border-bottom: solid #171717 1px;
+  opacity: 0.05;
+  margin-bottom: -$spacing-07 * 1.6;
 }
 
 // Glitch

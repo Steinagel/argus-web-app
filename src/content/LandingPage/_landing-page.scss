@@ -44,6 +44,7 @@
   @include carbon--type-style('productive-heading-07');
   @include carbon--font-weight('semibold');
   font-size: 500%;
+  font-family: 'Lato Light';
 }
 
 .landing-page__subheading {
@@ -51,6 +52,7 @@
   // text-align: center;
   @include carbon--type-style('productive-heading-03');
   @include carbon--font-weight('semibold');
+  font-family: 'Lato Thin';
   font-size: 200%;
 }
 
@@ -59,6 +61,7 @@
   // text-align: center;
   @include carbon--type-style('productive-heading-02');
   @include carbon--font-weight('regular');
+  font-family: 'Lato Light';
 }
 
 .landing-page__team {
