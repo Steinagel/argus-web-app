@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Tabs, Tab, TextInput } from 'carbon-components-react';
 import UrlTable from './UrlTable';
 import BodyHeader from '../../components/BodyHeader';
+import api from '../../services/api';
+
+const { http } = api;
 
 const props = {
   tabs: {
@@ -23,108 +26,126 @@ const headers = [
     header: 'Name',
   },
   {
-    key: 'createdAt',
-    header: 'Created',
+    key: 'enabled',
+    header: 'Enabled',
   },
   {
-    key: 'updatedAt',
-    header: 'Updated',
+    key: 'processing',
+    header: 'Processing',
   },
   {
-    key: 'lastAnalysi',
+    key: 'last_change_datetime',
     header: 'Last Analyze',
   },
   {
-    key: 'processingNow',
+    key: 'first_verify',
     header: 'Status',
   },
   {
-    key: 'risky',
+    key: 'last_verify',
     header: 'Risky',
   },
   {
-    key: 'lang',
+    key: 'risky',
     header: 'Language',
-  },
-];
-
-const rows = [
-  {
-    id: '1',
-    name: 'GrookIT Page',
-    createdAt: 'Date',
-    updatedAt: 'Date',
-    lastAnalysi: 'Date',
-    processingNow: 'False',
-    risky: '5',
-    lang: 'it',
-  },
-  {
-    id: '2',
-    name: '4Channel',
-    createdAt: 'Date',
-    updatedAt: 'Date',
-    lastAnalysi: 'Date',
-    processingNow: 'True',
-    risky: '8',
-    lang: 'pt',
-  },
-  {
-    id: '3',
-    name: 'DkChannel',
-    createdAt: 'Date',
-    updatedAt: 'Date',
-    lastAnalysi: 'Date',
-    processingNow: 'True',
-    risky: '10',
-    lang: 'en',
   },
 ];
 /////////
 
-const TryArgusPage = () => {
-  return (
-    <div className="bx--grid bx--grid--full-width tryargus-page">
-      <BodyHeader name="Tools" />
-      <div className="bx--row tryargus-page__r2">
-        <div className="bx--col bx--no-gutter">
-          <Tabs {...props.tabs} aria-label="Tab navigation">
-            <Tab {...props.tab} label="ProxyIt">
-              <div className="bx--grid bx--grid--no-gutter bx--grid--full-width">
-                <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-search__input">
-                  <TextInput
-                    labelText="Add URL:"
-                    id="url-input"
-                    placeholder="URL"
-                  />
-                  <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-data__content">
-                    <UrlTable headers={headers} rows={rows} />
+export default class TryArgusPage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      rows: [],
+      rawRows: [],
+    };
+  }
+
+  handleUrls() {
+    http.get(`urls`).then(response => {
+      let { result } = response.data;
+      if (result.length > 0) this.setState({ rawRows: [] });
+      this.setState({ rawRows: [...result] });
+      this.handleDataConvertion();
+    });
+  }
+
+  handleDataConvertion() {
+    let data = this.state.rawRows,
+      count = 0,
+      result = data.map(obj => {
+        let first_verify = obj.first_verify ? obj.first_verify['$date'] : '',
+          last_verify = obj.last_verify ? obj.last_verify['$date'] : '',
+          last_changes = obj.last_verify ? obj.last_changes['$date'] : '',
+          id = count;
+
+        delete obj.first_verify;
+        delete obj.last_verify;
+        delete obj.last_changes;
+
+        let newObj = {
+          id,
+          ...obj,
+          first_verify,
+          last_verify,
+          last_changes,
+        };
+
+        ++count;
+        console.log(newObj);
+        return newObj;
+      });
+    this.setState({ rows: [] });
+    this.setState({ rows: [...result] });
+  }
+
+  componentDidMount() {
+    this.handleUrls();
+  }
+
+  render() {
+    return (
+      <div className="bx--grid bx--grid--full-width tryargus-page">
+        <BodyHeader name="Tools" />
+        <div className="bx--row tryargus-page__r2">
+          <div className="bx--col bx--no-gutter">
+            <Tabs {...props.tabs} aria-label="Tab navigation">
+              <Tab {...props.tab} label="ProxyIt">
+                <div className="bx--grid bx--grid--no-gutter bx--grid--full-width">
+                  <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-search__input">
+                    <TextInput
+                      labelText="Add URL:"
+                      id="url-input"
+                      placeholder="URL"
+                    />
+                    <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-data__content">
+                      <UrlTable headers={headers} rows={this.state.rows} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Tab>
-            <Tab {...props.tab} label="SearchIt">
-              <div className="bx--grid bx--grid--no-gutter bx--grid--full-width">
-                <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-search__input">
-                  <TextInput.PasswordInput
-                    helperText=""
-                    hidepasswordlabel="Hide"
-                    id="data-input"
-                    labelText="Search data:"
-                    placeholder="Search"
-                    showpasswordlabel="Show"
-                  />
+              </Tab>
+              <Tab {...props.tab} label="SearchIt">
+                <div className="bx--grid bx--grid--no-gutter bx--grid--full-width">
+                  <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-search__input">
+                    <TextInput.PasswordInput
+                      helperText=""
+                      hidepasswordlabel="Hide"
+                      id="data-input"
+                      labelText="Search data:"
+                      placeholder="Search"
+                      showpasswordlabel="Show"
+                    />
+                  </div>
+                  <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-data__content">
+                    <h2 id="data-output">Founded!</h2>
+                  </div>
                 </div>
-                <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-data__content">
-                  <h2 id="data-output">Founded!</h2>
-                </div>
-              </div>
-            </Tab>
-          </Tabs>
+              </Tab>
+            </Tabs>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-export default TryArgusPage;
+    );
+  }
+}
