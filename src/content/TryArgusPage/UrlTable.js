@@ -26,8 +26,8 @@ const UrlTable = ({ rows, headers }) => {
         getTableProps,
       }) => (
         <TableContainer
-          title="Carbon Repositories"
-          description="A collection of public Carbon repositories.">
+          title="All Urls"
+          description="Where Argus is looking now:">
           <Table {...getTableProps()}>
             <TableHead>
               <TableRow>
