@@ -26,15 +26,11 @@ const headers = [
     header: 'Name',
   },
   {
-    key: 'enabled',
-    header: 'Enabled',
-  },
-  {
     key: 'processing',
     header: 'Processing',
   },
   {
-    key: 'last_change_datetime',
+    key: 'last_changes',
     header: 'Last Analyze',
   },
   {
@@ -46,7 +42,7 @@ const headers = [
     header: 'Risky',
   },
   {
-    key: 'risky',
+    key: 'analysis',
     header: 'Language',
   },
 ];
@@ -75,9 +71,9 @@ export default class TryArgusPage extends Component {
     let data = this.state.rawRows,
       count = 0,
       result = data.map(obj => {
-        let first_verify = obj.first_verify ? obj.first_verify['$date'] : '',
-          last_verify = obj.last_verify ? obj.last_verify['$date'] : '',
-          last_changes = obj.last_verify ? obj.last_changes['$date'] : '',
+        let first_verify = obj.first_verify ? obj.first_verify : '',
+          last_verify = obj.last_verify ? obj.last_verify : '',
+          last_changes = obj.last_verify ? obj.last_changes : '',
           id = count;
 
         delete obj.first_verify;
@@ -93,7 +89,6 @@ export default class TryArgusPage extends Component {
         };
 
         ++count;
-        console.log(newObj);
         return newObj;
       });
     this.setState({ rows: [] });
@@ -105,6 +100,20 @@ export default class TryArgusPage extends Component {
   }
 
   render() {
+    const getRowItems = rows =>
+      rows.map(row => ({
+        ...row,
+        name: row.name,
+        processing: row.processing,
+        last_changes: new Date(row.last_changes).toLocaleTimeString(),
+        first_verify: new Date(row.first_verify).toLocaleTimeString(),
+        last_verify: new Date(row.last_verify).toLocaleTimeString(),
+        analysis: row.analysis,
+      }));
+
+    const rows = getRowItems(this.state.rows);
+    console.log('Rows: ', rows);
+    console.log('Headers: ', headers);
     return (
       <div className="bx--grid bx--grid--full-width tryargus-page">
         <BodyHeader name="Tools" />
@@ -120,7 +129,7 @@ export default class TryArgusPage extends Component {
                       placeholder="URL"
                     />
                     <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-data__content">
-                      <UrlTable headers={headers} rows={this.state.rows} />
+                      <UrlTable headers={headers} rows={rows} />
                     </div>
                   </div>
                 </div>
