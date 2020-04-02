@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { Tabs, Tab, TextInput } from 'carbon-components-react';
+import {
+  Tabs,
+  Tab,
+  TextInput,
+  InlineNotification,
+} from 'carbon-components-react';
 import UrlTable from './UrlTable';
 import BodyHeader from '../../components/BodyHeader';
 import api from '../../services/api';
@@ -57,6 +62,8 @@ export default class TryArgusPage extends Component {
     super(props);
 
     this.state = {
+      found: false,
+      added: false,
       rows: [],
       rawRows: [],
     };
@@ -103,7 +110,29 @@ export default class TryArgusPage extends Component {
   componentDidMount() {
     this.handleUrls();
   }
+  _addUrl = e => {
+    if (e.key === 'Enter') {
+      http.post(`add_url`, { type: '', url: e.target.value }).then(response => {
+        if (response.data.Status === true) {
+          this.setState({ added: true });
+        } else {
+          this.setState({ added: false });
+        }
+      });
+    }
+  };
 
+  _searchContent = e => {
+    if (e.key === 'Enter') {
+      http.post(`search`, { content: e.target.value }).then(response => {
+        if (response.data.was_found === true) {
+          this.setState({ found: true });
+        } else {
+          this.setState({ found: false });
+        }
+      });
+    }
+  };
   render() {
     return (
       <div className="bx--grid bx--grid--full-width tryargus-page">
@@ -114,10 +143,24 @@ export default class TryArgusPage extends Component {
               <Tab {...props.tab} label="ProxyIt">
                 <div className="bx--grid bx--grid--no-gutter bx--grid--full-width">
                   <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-search__input">
+                    {(() => {
+                      if (this.state.added) {
+                        return (
+                          <InlineNotification
+                            kind="info"
+                            iconDescription="Close button"
+                            subtitle={<span></span>}
+                            title="Successfully added new URL."
+                          />
+                        );
+                      } else {
+                        return null;
+                      }
+                    })()}
                     <TextInput
                       labelText="Add URL:"
                       id="url-input"
-                      placeholder="URL"
+                      onKeyDown={this._addUrl}
                     />
                     <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-data__content">
                       <UrlTable headers={headers} rows={this.state.rows} />
@@ -128,17 +171,18 @@ export default class TryArgusPage extends Component {
               <Tab {...props.tab} label="SearchIt">
                 <div className="bx--grid bx--grid--no-gutter bx--grid--full-width">
                   <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-search__input">
-                    <TextInput.PasswordInput
+                    <TextInput
                       helperText=""
-                      hidepasswordlabel="Hide"
                       id="data-input"
                       labelText="Search data:"
                       placeholder="Search"
-                      showpasswordlabel="Show"
+                      onKeyDown={this._searchContent}
                     />
                   </div>
                   <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-data__content">
-                    <h2 id="data-output">Founded!</h2>
+                    <h2 id="data-output">
+                      {this.state.found ? 'Found!' : 'Not found.'}
+                    </h2>
                   </div>
                 </div>
               </Tab>
