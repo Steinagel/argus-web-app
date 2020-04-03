@@ -50,6 +50,10 @@ const headers = [
     key: 'risky',
     header: 'Risky',
   },
+  {
+    key: 'language',
+    header: 'Language',
+  },
 ];
 /////////
 
