@@ -9,15 +9,14 @@ const AboutArgus = () => {
       <div className="bx--row bx--grid--full-width ondw-page__tab-content">
         <AboutText
           tech="IBM"
-          text="Our analysis is made and improved with Watson Studio. Argus understands
-          a bunch of languages using IBM Translator and for understanding audios uses IBM Speech to Text."
+          text="Use Watson is the key for Argus to work with any kind of data and understand any language."
         />
         <AboutImage image="tooling/ibm_tooling.png" alt="Ibm Tools" />
       </div>
       <div className="bx--row bx--grid--full-width ondw-page__tab-content">
         <AboutText
-          tech="Python"
-          text="Inside Watson Studio we used Python and Pythorch, which built Argus IA using blablabla"
+          tech="Python and the Argus Mind"
+          text="Argus count with the most famous Python AI and ML techs combined with the power of Watson tools."
         />
         <AboutImage image="tooling/python_tooling.png" alt="Ibm Tools" />
       </div>
@@ -28,6 +27,10 @@ const AboutArgus = () => {
       <div className="bx--row bx--grid--full-width ondw-page__tab-content">
         <AboutText tech="IBM" text="this is IBM tools" />
         <AboutImage image="tooling/apache_tooling.png" alt="Ibm Tools" />
+      </div>
+      <div className="bx--row bx--grid--full-width ondw-page__tab-content">
+        <AboutText tech="IBM" text="this is IBM tools" />
+        <AboutImage image="tooling/devops_tooling.png" alt="Ibm Tools" />
       </div>
       <div className="bx--row bx--grid--full-width ondw-page__tab-content">
         <AboutText tech="IBM" text="this is IBM tools" />

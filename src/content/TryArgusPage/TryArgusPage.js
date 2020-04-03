@@ -35,19 +35,23 @@ const headers = [
     header: 'Processing',
   },
   {
-    key: 'last_changes',
-    header: 'Last Analyze',
+    key: 'lastChange',
+    header: 'Last Changes',
   },
   {
-    key: 'first_verify',
-    header: 'Status',
+    key: 'creationDate',
+    header: 'Creation Date',
   },
   {
-    key: 'last_verify',
+    key: 'lastAttpemt',
+    header: 'Last Scan',
+  },
+  {
+    key: 'risky',
     header: 'Risky',
   },
   {
-    key: 'analysis',
+    key: 'language',
     header: 'Language',
   },
 ];
@@ -75,21 +79,31 @@ export default class TryArgusPage extends Component {
   }
 
   handleDataConvertion() {
+    let convertDate = date => new Date(date).toLocaleTimeString();
+    let convertProccess = bool => (bool ? 'Yes' : 'No');
+
     let data = this.state.rawRows,
       count = 0,
       result = data.map(obj => {
-        let first_verify = obj.first_verify ? obj.first_verify : '',
-          last_verify = obj.last_verify ? obj.last_verify : '',
-          last_changes = obj.last_verify ? obj.last_changes : '',
+        let first_verify = obj.first_verify
+            ? convertDate(obj.first_verify)
+            : '',
+          last_verify = obj.last_verify ? convertDate(obj.last_verify) : '',
+          last_changes = obj.last_verify ? convertDate(obj.last_changes) : '',
+          processing = obj.processing ? convertProccess(obj.processing) : 'No',
+          analysis = obj.analysis ? true : false,
           id = count;
 
         delete obj.first_verify;
         delete obj.last_verify;
         delete obj.last_changes;
+        delete obj.processing;
 
         let newObj = {
           id,
+          processing,
           ...obj,
+          analysis,
           first_verify,
           last_verify,
           last_changes,
@@ -105,6 +119,7 @@ export default class TryArgusPage extends Component {
   componentDidMount() {
     this.handleUrls();
   }
+
   _addUrl = e => {
     if (e.key === 'Enter') {
       http.post(`add_url`, { type: '', url: e.target.value }).then(response => {
@@ -128,21 +143,9 @@ export default class TryArgusPage extends Component {
       });
     }
   };
-  render() {
-    const getRowItems = rows =>
-      rows.map(row => ({
-        ...row,
-        name: row.name,
-        processing: row.processing,
-        last_changes: new Date(row.last_changes).toLocaleTimeString(),
-        first_verify: new Date(row.first_verify).toLocaleTimeString(),
-        last_verify: new Date(row.last_verify).toLocaleTimeString(),
-        analysis: row.analysis,
-      }));
 
-    const rows = getRowItems(this.state.rows);
-    console.log('Rows: ', rows);
-    console.log('Headers: ', headers);
+  render() {
+    const { rows } = this.state;
     return (
       <div className="bx--grid bx--grid--full-width tryargus-page">
         <BodyHeader name="Tools" />
@@ -158,7 +161,7 @@ export default class TryArgusPage extends Component {
                           <InlineNotification
                             kind="info"
                             iconDescription="Close button"
-                            subtitle={<span></span>}
+                            subtitle={<span />}
                             title="Successfully added new URL."
                           />
                         );
