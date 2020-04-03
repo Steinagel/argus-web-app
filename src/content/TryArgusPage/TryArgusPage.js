@@ -122,7 +122,7 @@ export default class TryArgusPage extends Component {
 
   _addUrl = e => {
     if (e.key === 'Enter') {
-      http.post(`add_url`, { type: '', url: e.target.value }).then(response => {
+      http.post(`add_url`, { name: '', url: e.target.value }).then(response => {
         if (response.data.Status === true) {
           this.setState({ added: true });
         } else {
