@@ -158,7 +158,7 @@ export default class TryArgusPage extends Component {
                           <InlineNotification
                             kind="info"
                             iconDescription="Close button"
-                            subtitle={<span></span>}
+                            subtitle={<span />}
                             title="Successfully added new URL."
                           />
                         );
