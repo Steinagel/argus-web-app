@@ -2,7 +2,14 @@ import React, { Component } from 'react';
 import {
   Tabs,
   Tab,
+  FormGroup,
   TextInput,
+  RadioButton,
+  SkeletonText,
+  ModalWrapper,
+  InlineLoading,
+  RadioButtonGroup,
+  DataTableSkeleton,
   InlineNotification,
 } from 'carbon-components-react';
 import UrlTable from './UrlTable';
@@ -63,10 +70,20 @@ export default class TryArgusPage extends Component {
 
     this.state = {
       found: false,
-      added: false,
+      added: Boolean,
+      error: Boolean,
+      tableLoading: true,
+      savingLoading: false,
+      isSearching: false,
+      url: String,
+      name: String,
       rows: [],
       rawRows: [],
     };
+
+    this._handleUrl = this._handleUrl.bind(this);
+    this._handleName = this._handleName.bind(this);
+    this._addUrl = this._addUrl.bind(this);
   }
 
   handleUrls() {
@@ -75,6 +92,7 @@ export default class TryArgusPage extends Component {
       if (result.length > 0) this.setState({ rawRows: [] });
       this.setState({ rawRows: [...result] });
       this.handleDataConvertion();
+      this.setState({ tableLoading: false });
     });
   }
 
@@ -120,19 +138,29 @@ export default class TryArgusPage extends Component {
     this.handleUrls();
   }
 
-  _addUrl = e => {
-    if (e.key === 'Enter') {
-      http.post(`add_url`, { type: '', url: e.target.value }).then(response => {
-        if (response.data.Status === true) {
-          this.setState({ added: true });
-        } else {
-          this.setState({ added: false });
-        }
-      });
-    }
+  _handleUrl = e => {
+    this.setState({ url: e.target.value });
   };
+  _handleName = e => {
+    this.setState({ name: e.target.value });
+  };
+  _addUrl() {
+    this.setState({ savingLoading: true });
+    http
+      .post(`add_url`, { name: this.state.name, url: this.state.url }).then(response => {
+        if (response.data.Status === 'success') {
+          this.setState({ added: true });
+          this.setState({ error: false });
+        } else {
+        this.setState({ error: true });
+        this.setState({ added: false });
+      }
+      this.setState({ savingLoading: !this.state.savingLoading });
+    });
+  }
 
   _searchContent = e => {
+    this.setState({ isSearching: true });
     if (e.key === 'Enter') {
       http.post(`search`, { content: e.target.value }).then(response => {
         if (response.data.was_found === true) {
@@ -140,6 +168,7 @@ export default class TryArgusPage extends Component {
         } else {
           this.setState({ found: false });
         }
+        this.setState({ isSearching: !this.state.isSearching });
       });
     }
   };
@@ -154,35 +183,81 @@ export default class TryArgusPage extends Component {
             <Tabs {...props.tabs} aria-label="Tab navigation">
               <Tab {...props.tab} label="ProxyIt">
                 <div className="bx--grid bx--grid--no-gutter bx--grid--full-width">
-                  <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-search__input">
-                    {(() => {
-                      if (this.state.added) {
-                        return (
-                          <InlineNotification
-                            kind="info"
-                            iconDescription="Close button"
-                            subtitle={<span />}
-                            title="Successfully added new URL."
+                  <div class="bx--offset-lg-14 bx--col-lg-2 bx--offset-md-6 bx--col-md-2 bx--offset-sm-2 bx--col-sm-2">
+                    <ModalWrapper
+                      buttonTriggerText="Add URL"
+                      modalHeading="Insert new URL"
+                      handleSubmit={this._addUrl}
+                      hasScrollingContent
+                      shouldCloseAfterSubmit>
+                      {this.state.error === true ? (
+                        <InlineNotification
+                          kind="error"
+                          iconDescription="describes the close button"
+                          title="Error on saving URL. Please try again later."
+                        />
+                      ) : null}
+                      {this.state.added === true ? (
+                        <InlineNotification
+                          kind="success"
+                          iconDescription="describes the close button"
+                          title="URL saved successfully!"
+                        />
+                      ) : null}
+                      <TextInput
+                        labelText="Name:"
+                        id="name-input"
+                        onChange={this._handleName}
+                      />
+                      <TextInput
+                        labelText="URL:"
+                        id="url-input"
+                        onChange={this._handleUrl}
+                      />
+                      <br></br>
+                      <FormGroup invalid={false} legendText="Analysis Type">
+                        <RadioButtonGroup
+                          defaultSelected="default-selected"
+                          legend="Analysis Type"
+                          name="radio-button-group"
+                          valueSelected="default-selected">
+                          <RadioButton
+                            id="analysis-1"
+                            labelText="Analysis 1"
+                            value="standard"
                           />
-                        );
-                      } else {
-                        return null;
-                      }
-                    })()}
-                    <TextInput
-                      labelText="Add URL:"
-                      id="url-input"
-                      onKeyDown={this._addUrl}
-                    />
+                          <RadioButton
+                            id="analysis-2"
+                            labelText="Analysis 2"
+                            value="default-selected"
+                          />
+                        </RadioButtonGroup>
+                      </FormGroup>
+                      {this.state.savingLoading ? (
+                        <InlineLoading description="Saving..." />
+                      ) : null}
+                    </ModalWrapper>
+                  </div>
+                  <div className="bx--row">
                     <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-data__content">
-                      <UrlTable headers={headers} rows={rows} />
+                      {this.state.tableLoading ? (
+                        <DataTableSkeleton
+                          columnCount={5}
+                          compact={false}
+                          headers={headers}
+                          rowCount={5}
+                          zebra={false}
+                        />
+                      ) : (
+                        <UrlTable headers={headers} rows={rows} />
+                      )}
                     </div>
                   </div>
                 </div>
               </Tab>
               <Tab {...props.tab} label="SearchIt">
                 <div className="bx--grid bx--grid--no-gutter bx--grid--full-width">
-                  <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-search__input">
+                  <div className="bx--col-sm-4 bx--col-md-6 bx--col-lg-12 tryargus-search__input">
                     <TextInput
                       helperText=""
                       id="data-input"
@@ -192,9 +267,14 @@ export default class TryArgusPage extends Component {
                     />
                   </div>
                   <div className="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 tryargus-data__content">
-                    <h2 id="data-output">
+                    {this.state.isSearching ? (<SkeletonText
+                        heading={false}
+                        lineCount={3}
+                        paragraph={false}
+                        width="100%"
+                      />) : (<h2 id="data-output">
                       {this.state.found ? 'Found!' : 'Not found.'}
-                    </h2>
+                    </h2>)}
                   </div>
                 </div>
               </Tab>
