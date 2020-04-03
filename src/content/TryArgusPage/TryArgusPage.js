@@ -35,20 +35,20 @@ const headers = [
     header: 'Processing',
   },
   {
-    key: 'last_changes',
-    header: 'Last Analyze',
+    key: 'lastChange',
+    header: 'Last Changes',
   },
   {
-    key: 'first_verify',
-    header: 'Status',
+    key: 'creationDate',
+    header: 'Creation Date',
   },
   {
-    key: 'last_verify',
+    key: 'lastAttpemt',
+    header: 'Last Scan',
+  },
+  {
+    key: 'risky',
     header: 'Risky',
-  },
-  {
-    key: 'analysis',
-    header: 'Language',
   },
 ];
 /////////
@@ -87,6 +87,7 @@ export default class TryArgusPage extends Component {
           last_verify = obj.last_verify ? convertDate(obj.last_verify) : '',
           last_changes = obj.last_verify ? convertDate(obj.last_changes) : '',
           processing = obj.processing ? convertProccess(obj.processing) : 'No',
+          analysis = obj.analysis ? true : false,
           id = count;
 
         delete obj.first_verify;
@@ -98,6 +99,7 @@ export default class TryArgusPage extends Component {
           id,
           processing,
           ...obj,
+          analysis,
           first_verify,
           last_verify,
           last_changes,
