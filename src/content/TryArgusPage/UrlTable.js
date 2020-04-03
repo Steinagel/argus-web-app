@@ -14,6 +14,10 @@ import {
 } from 'carbon-components-react';
 
 const UrlTable = ({ rows, headers }) => {
+  const getRowDescription = rowId => {
+    const row = rows.find(({ id }) => id === rowId);
+    return row ? row.analysis : '';
+  };
   return (
     <DataTable
       rows={rows}
@@ -48,7 +52,10 @@ const UrlTable = ({ rows, headers }) => {
                     ))}
                   </TableExpandRow>
                   <TableExpandedRow colSpan={headers.length + 1}>
-                    <p>Risky: Found Risky Sentence</p>
+                    <p>
+                      Highest Risky Sentence:{' '}
+                      <strong>{getRowDescription(row.id)}</strong>
+                    </p>
                   </TableExpandedRow>
                 </React.Fragment>
               ))}

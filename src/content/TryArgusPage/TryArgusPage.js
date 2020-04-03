@@ -109,13 +109,14 @@ export default class TryArgusPage extends Component {
           last_verify = obj.last_verify ? convertDate(obj.last_verify) : '',
           last_changes = obj.last_verify ? convertDate(obj.last_changes) : '',
           processing = obj.processing ? convertProccess(obj.processing) : 'No',
-          analysis = obj.analysis ? true : false,
+          analysis = obj.analysis ? obj.analysis : 'No risky sentence found',
           id = count;
 
         delete obj.first_verify;
         delete obj.last_verify;
         delete obj.last_changes;
         delete obj.processing;
+        delete obj.analysis;
 
         let newObj = {
           id,
