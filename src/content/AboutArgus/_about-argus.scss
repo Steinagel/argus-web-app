@@ -1,0 +1,103 @@
+@import './mixins.scss';
+@import './overrides.scss';
+
+.ondw-page__illo {
+  // position: absolute;
+  // right: 25vw;
+  max-height: (50vh - 10.81081081081081vh) * 1;
+  margin-left: 28%;
+}
+
+.ondw-page__spacing {
+  height: 10vh;
+}
+
+.ondw-page__r2 {
+  // margin-top: rem(-40px);
+  height: 50vh - 10.81081081081081vh;
+  // @include ondw-page-background;
+}
+
+.ondw-page__text {
+  // padding: 0 2% 0 5%;
+  text-align: center;
+  // background-color: red;
+}
+
+.ondw-page__heading {
+  padding-bottom: $spacing-05;
+  @include carbon--type-style('productive-heading-07');
+  @include carbon--font-weight('semibold');
+  font-size: 400%;
+}
+
+.ondw-page__subheading {
+  padding-bottom: $spacing-05;
+  // text-align: center;
+  @include carbon--type-style('productive-heading-03');
+  @include carbon--font-weight('semibold');
+}
+
+.ondw-page__p {
+  padding-bottom: $spacing-02;
+  text-align: center;
+  opacity: 0.86;
+  @include carbon--type-style('productive-heading-02');
+  @include carbon--font-weight('regular');
+}
+
+.ondw-page__team {
+  text-align: center;
+  padding-top: $spacing-03;
+  padding-bottom: $spacing-04;
+  bottom: 0;
+  @include carbon--type-style('productive-heading-01');
+}
+
+.ondw-page__label {
+  @include carbon--type-style('heading-01');
+}
+
+.ondw-ibm_tools {
+  // margin-left: auto;
+  // margin-right: auto;
+  // display: block;
+  // // max-height: (55vh - 10.81081081081081vh) * 1;
+  // width: 50%;
+  // // margin-left: 20%;
+}
+
+.ondw-elastic_tools {
+  // margin-left: 19%;
+  // margin-right: auto;
+  // display: block;
+  // // max-height: (55vh - 10.81081081081081vh) * 1;
+  // width: 60%;
+}
+
+.ondw-apache_tools {
+  // margin-left: 24.5%;
+  // margin-right: auto;
+  // margin-top: 125px;
+  // display: block;
+  // // max-height: (55vh - 10.81081081081081vh) * 1;
+  // width: 54%;
+}
+
+.ondw-whonix {
+  // margin-left: auto;
+  // margin-right: auto;
+  // display: block;
+  // // max-height: (55vh - 10.81081081081081vh) * 1;
+  // width: 60%;
+}
+
+// .redao {
+//   background-color: red;
+//   min-height: 10px;
+//   // margin-right: 10px;
+// }
+
+.extra-padding {
+  padding-top: 150px;
+}

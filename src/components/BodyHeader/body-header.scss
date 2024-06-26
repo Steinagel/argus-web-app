@@ -1,0 +1,95 @@
+.bh-page__banner {
+  // background-color: blue;
+  padding-top: $spacing-05;
+  padding-bottom: $spacing-07 * 1.6;
+  // @include tryargus-page-background;
+}
+
+.bh-page__heading {
+  // background-color: greenyellow;
+  @include carbon--type-style('productive-heading-07');
+  @include carbon--font-weight('regular');
+  padding-left: 50px;
+  line-height: 55px;
+  font-size: 75px;
+}
+
+.bh-right-logo-div {
+  // width: 10px;
+  height: 85px;
+  // background-color: red;
+  display: flex;
+  right: 0;
+  position: relative;
+}
+
+.bh-right-logo {
+  width: auto;
+  height: 115px;
+  transform: rotate(315deg);
+  -ms-transform: rotate(315deg);
+  -moz-transform: rotate(315deg);
+  -webkit-transform: rotate(315deg);
+  -o-transform: rotate(315deg);
+}
+
+.bh-down-line {
+  border-bottom: solid #171717 1px;
+  opacity: 0.05;
+  margin-bottom: -$spacing-07 * 1.6;
+}
+
+// Glitch
+
+.glitch {
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+  position: relative;
+  // float: left;
+}
+
+@keyframes noise-anim {
+  $steps: 20;
+  @for $i from 0 through $steps {
+    #{percentage($i*(1/$steps))} {
+      $top: random(100);
+      $bottom: random(101 - $top);
+      clip-path: inset(#{$top}% 0 #{$bottom}% 0);
+    }
+  }
+}
+
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0.6px;
+  text-shadow: -0.2px 0 rgb(255, 171, 171);
+  top: 0;
+  color: rgb(0, 0, 0);
+  background: rgb(255, 255, 255);
+  overflow: hidden;
+  animation: noise-anim 2s infinite linear alternate-reverse;
+}
+
+@keyframes noise-anim-2 {
+  $steps: 20;
+  @for $i from 0 through $steps {
+    #{percentage($i*(1/$steps))} {
+      $top: random(100);
+      $bottom: random(101 - $top);
+      clip-path: inset(#{$top}% 0 #{$bottom}% 0);
+    }
+  }
+}
+
+.glitch::before {
+  content: attr(data-text);
+  position: absolute;
+  left: -0.6px;
+  text-shadow: -0.2px 0 rgb(159, 159, 250);
+  top: 0;
+  color: rgb(0, 0, 0);
+  background: rgb(255, 255, 255);
+  overflow: hidden;
+  animation: noise-anim-2 20s infinite linear alternate-reverse;
+}
